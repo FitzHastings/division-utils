@@ -75,7 +75,7 @@ public class ClassPathLoader {
     // URL файла для добавления к classpath
     URL u = new URL(path);
     // достаем системный загрузчик классов
-    URLClassLoader urlClassLoader = (URLClassLoader)ClassLoader.getSystemClassLoader();
+    ClassLoader urlClassLoader = ClassLoader.getSystemClassLoader();
     // используя механизм отражения,
     // достаем метод для добавления URL к classpath
     Class urlClass = URLClassLoader.class;
