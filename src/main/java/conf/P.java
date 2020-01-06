@@ -28,7 +28,7 @@ public class P {
     return get(name) != null;
   }
 
-  private static Object get(String name) {
+  public static Object get(String name) {
     Object val = null;
     Map<String,Object> m = map;
     for(String key : name.split(".")) {
@@ -50,6 +50,10 @@ public class P {
 
   public static List List(String name) {
     return get(name, List.class);
+  }
+
+  public static Map<String, Object> Map(String name) {
+    return get(name, Map.class);
   }
   
   public static String String(String name) {
