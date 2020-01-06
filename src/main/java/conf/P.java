@@ -6,7 +6,6 @@ import division.util.Utility;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +51,10 @@ public class P {
   public static List List(String name) {
     return get(name, List.class);
   }
+
+    public static <T> List<T> List(String name, T type) {
+        return (List<T>)get(name, List.class);
+    }
 
   public static Map<String, Object> Map(String name) {
     return get(name, Map.class);
