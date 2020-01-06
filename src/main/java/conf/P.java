@@ -41,7 +41,7 @@ public class P {
   }
 
   public static <T> T get(String name, Class<? extends T> type) {
-    return type.cast(get(name));
+    return (T) get(name);
   }
   
   public static <T> T get(String name, T defaultValue) {
