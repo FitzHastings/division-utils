@@ -21,7 +21,7 @@ public class P {
   }
   
   public static boolean isNull(String name) {
-    return System.getProperties().get(name) == null;
+    return get(name) == null;
   }
   
   public static boolean contains(String name) {
@@ -32,6 +32,7 @@ public class P {
     Object val = null;
     Map<String,Object> m = map;
     for(String key : name.split(".")) {
+      System.out.println("################ "+key);
       val = m.get(key);
       if(val instanceof Map)
         m = (Map<String, Object>) val;
