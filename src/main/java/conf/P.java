@@ -2,20 +2,21 @@ package conf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import division.util.Utility;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Map;
 
 public class P {
-  public static String DEF_CONF_FILE;
+  public static Map<String,Object> map;
   
   static {
-    DEF_CONF_FILE = "conf"+File.separator+"conf.json";
-    P.load();
+    try {
+      map = new ObjectMapper().readValue(Utility.getStringFromFile("conf"+File.separator+"conf.json"), Map.class);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
   
   public static boolean isNull(String name) {
@@ -23,22 +24,27 @@ public class P {
   }
   
   public static boolean contains(String name) {
-    return System.getProperties().containsKey(name);
+    return get(name) != null;
   }
-  
+
+  private static Object get(String name) {
+    Object val = null;
+    Map<String,Object> m = map;
+    for(String key : name.split(".")) {
+      val = m.get(key);
+      if(val instanceof Map)
+        m = (Map<String, Object>) val;
+    }
+    return val;
+  }
+
   public static <T> T get(String name, Class<? extends T> type) {
-    return type.cast(System.getProperties().get(name));
+    return type.cast(get(name));
   }
   
   public static <T> T get(String name, T defaultValue) {
-    return System.getProperties().get(name) == null ? defaultValue : (T)System.getProperties().get(name);
-  }
-  
-  public static <T> List<T> list(String name, Class<? extends T> type) {
-    ObservableList<T> list = FXCollections.observableArrayList();
-    for(Object o:get(name, List.class))
-      list.add(type.cast(o));
-    return list;
+    T v = (T) get(name, defaultValue.getClass());
+    return v == null ? defaultValue : v;
   }
   
   public static String String(String name) {
@@ -59,30 +65,5 @@ public class P {
   
   public static BigDecimal BigDecimal(String name) {
     return get(name, BigDecimal.class);
-  }
-  
-  public static void load() {
-    load(DEF_CONF_FILE);
-  }
-  
-  public static void load(String confFile) {
-    try {
-      setparams("", new ObjectMapper().readValue(Utility.getStringFromFile(confFile), Map.class));
-    }catch(Exception ex) {
-      ex.printStackTrace();
-    }
-  }
-  
-  private static void setparams(String pkey, Map config) {
-    for(Object key:config.keySet()) {
-      String prop = pkey+(pkey.equals("") ? "" : ".")+key;
-      Object val = config.get(key);
-      if(val instanceof Map)
-        setparams(prop, (Map)val);
-      else {
-        System.getProperties().put(prop, val);
-        System.out.println(prop+" = "+val+" "+val.getClass().getSimpleName());
-      }
-    }
   }
 }
