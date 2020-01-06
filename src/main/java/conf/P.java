@@ -6,6 +6,7 @@ import division.util.Utility;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 public class P {
@@ -45,6 +46,10 @@ public class P {
   public static <T> T get(String name, T defaultValue) {
     T v = (T) get(name, defaultValue.getClass());
     return v == null ? defaultValue : v;
+  }
+
+  public static List List(String name) {
+    return get(name, List.class);
   }
   
   public static String String(String name) {
