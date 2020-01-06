@@ -6,6 +6,7 @@ import division.util.Utility;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,7 @@ public class P {
   public static Object get(String name) {
     Object val = null;
     Map<String,Object> m = map;
-    for(String key : name.split(".")) {
-      System.out.println("################ "+key);
+    for(String key : name.split("\\.")) {
       val = m.get(key);
       if(val instanceof Map)
         m = (Map<String, Object>) val;
