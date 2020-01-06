@@ -52,7 +52,7 @@ public class P {
     return get(name, List.class);
   }
 
-    public static <T> List<T> List(String name, T type) {
+    public static <T> List<T> List(String name, Class<T> type) {
         return (List<T>)get(name, List.class);
     }
 
