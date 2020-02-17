@@ -27,7 +27,7 @@ public class P {
   }
   
   public static <T> T get(String name, Class<? extends T> type) {
-    return type.cast(System.getProperties().get(name));
+    return (T)System.getProperties().get(name);
   }
   
   public static <T> T get(String name, T defaultValue) {
